@@ -1,5 +1,5 @@
+class App extends React.Component { 
 
-    class App extends React.Component { 
 
             constructor(props){
                 super(props)
@@ -18,7 +18,11 @@
       componentDidMount(){
        $.ajax({
             
+
             url: 'https://api.nytimes.com/svc/archive/v1/2016/1.json?api-key=02a32004d52545be9c4e7b6f0b3edc28',
+
+            url: 'https://api.nytimes.com/svc/archive/v1/'+$('#year').val()+'/'+$('#month').val()+'.json?api-key=02a32004d52545be9c4e7b6f0b3edc28',
+
           
             success: this.setData
         })
@@ -26,6 +30,7 @@
     }
   
        
+
          
               render(){
              return(
@@ -52,7 +57,10 @@
      )}
          </div>
          );
-      
+
+        render(){ 
+              
+
    
         if(this.state.data.length ==0){
                    
@@ -67,6 +75,9 @@
           }
           </div>
         );
+
+    }
+>>>>>>> 2d01e1478edee266ae1538040be109e771105c62
       }  
    
    
@@ -112,4 +123,8 @@
 }
   function find(){
 ReactDOM.render(<App/>, document.getElementById('root'));
+
        }     
+
+       }     
+
