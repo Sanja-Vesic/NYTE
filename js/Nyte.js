@@ -13,6 +13,7 @@
     this.setState({selectedArticle: item})    
   }
 
+
   setData(responseData){
     const doc = responseData.response.docs.slice(0,20);
     this.setState({data: doc});
@@ -35,10 +36,13 @@
     <div className="articleDetails">
       <div className="article">{
           this.state.data.map( (article) => 
-          <Article key={article.web_url} 
+          <Article  article={article}
+                    key={article.web_url} 
                     url={article.web_url} 
                     clickhandler={this.handleItemClick} 
-                    item={article}/> )
+                    item={article}
+                    selectedArticleID={this.state.selectedArticle._id}
+                    /> )
         }
       </div>
       <div className="details">
@@ -90,8 +94,8 @@ class Article extends React.Component {
   }   
   componentDidMount(){
     $.ajax({
-         url: 'https://api.linkpreview.net/?key=5a8c5fffdf1fd0d14e3ef9e05269b449abdfcf5c8c60a&q=' + this.props.url,
-     /* url: 'http://api.linkpreview.net/?key=123456&q=https://www.google.com',*/
+        /* url: 'https://api.linkpreview.net/?key=5a8c5fffdf1fd0d14e3ef9e05269b449abdfcf5c8c60a&q=' + this.props.url,*/
+      url: 'http://api.linkpreview.net/?key=123456&q=https://www.google.com',
       success: this.setData
     })
   }
@@ -101,8 +105,8 @@ class Article extends React.Component {
     const clickhandler = this.props.clickhandler;  
     
     return (
-      <div className="container">
-        <img src={this.state.data.image}  onClick={() => clickhandler(data)} ></img>
+      <div className={"container"+ " " + (this.props.selectedArticleID == this.props.article._id ? "active" : "")}>
+        <img src={this.state.data.image}   onClick={() => clickhandler(data)} ></img>
         <h3>{this.state.data.title}</h3>
         <p>{this.state.data.description}</p>
       </div>   
@@ -127,7 +131,7 @@ btn.addEventListener('click', () =>{
       ReactDOM.render(<App y={y} m={m} />, document.getElementById('root'))
     }
     else{
-      root.innerHTML = "Please choose month and year between September 1851. and March 2018!"
+      root.innerHTML = "Please choose year starting from 1851!"
     }
   }
   else{

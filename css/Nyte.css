@@ -20,18 +20,21 @@ button{
 label{
     font-size: 20px;
 }
+
 .title{
     background-color: grey;
-    color: white;
+    color: black;
     text-align: center;
 }
 .main{
     width: 100%;
     margin: 0 auto;
-    
+     
 }
 .date{
     padding: 15px 0;
+    margin:20px;
+
 
 }
 .articleDetails{
@@ -48,10 +51,16 @@ label{
 
 .container{
     border: 1px solid rgb(92, 83, 83);
+   
+
 }
+
 .container img{
     width: 100%;
 }
+ .active {
+  background-color: orange;
+  } 
 .details{
     
     width: 25%;
@@ -59,6 +68,11 @@ label{
     position: fixed;
     right: 3px;
     font-size: 16px;
+}
+button:hover {
+  background-color: #ff9b19;
+  box-shadow: 0px 2px #8d530d;
+  top: 2px;
 }
 footer{
     position: fixed;
@@ -79,7 +93,7 @@ footer{
 }
 
 .infooter p{
-    color:white;
+    color:black;
 }
 
 .infooter a{
@@ -118,4 +132,5 @@ footer{
    .infooter a{
     padding: 10px 0;
 }
+
 }
