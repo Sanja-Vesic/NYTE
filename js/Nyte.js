@@ -1,130 +1,136 @@
-class App extends React.Component { 
+ class App extends React.Component { 
+  constructor(props){
+    super(props)
+    this.state = {
+      data: [],
+      selectedArticle: []
+    };
+    this.setData = this.setData.bind(this);
+    this.handleItemClick = this.handleItemClick.bind(this);
+  }
 
+  handleItemClick(item){
+    this.setState({selectedArticle: item})    
+  }
 
-            constructor(props){
-                super(props)
-                this.state = {data: []};
-                this.setData = this.setData.bind(this);
-            }
-
-            setData(responseData){
-               
-                const doc = responseData.response.docs.slice(0,5);
-               
+  setData(responseData){
+    const doc = responseData.response.docs.slice(0,20);
+    this.setState({data: doc});
+  }
             
-             this.setState({data: doc});
-        }
-            
-      componentDidMount(){
-       $.ajax({
-            
-
-            url: 'https://api.nytimes.com/svc/archive/v1/2016/1.json?api-key=02a32004d52545be9c4e7b6f0b3edc28',
-
-            url: 'https://api.nytimes.com/svc/archive/v1/'+$('#year').val()+'/'+$('#month').val()+'.json?api-key=02a32004d52545be9c4e7b6f0b3edc28',
-
-          
-            success: this.setData
-        })
-
-    }
+  componentDidMount(){
+    console.log('componentDidMount');
+      $.ajax({
+        url: 'https://api.nytimes.com/svc/archive/v1/' + this.props.y + '/' + this.props.m + '.json?api-key=02a32004d52545be9c4e7b6f0b3edc28',
+        success: this.setData
+  })
+}
   
-       
-
-         
-              render(){
-             return(
-            
-              
-               <div>
-                 <Articles a={this.state.data}/>
-               </div>
-            
-             )
-           }
-     }
-
-       const Articles = (props) => {
-       const articles = props.a;
-       console.log(articles)
-       
-             
-         return(
-         <div>  {
-           articles.map(
-           (dat) =>
-           <h2 key={articles.id}>{dat.headline.main}</h2>
-     )}
-         </div>
-         );
-
-        render(){ 
-              
-
-   
-        if(this.state.data.length ==0){
-                   
-                  
-        return  <img className="bb" src="./demo1.gif" ></img>;
-                }
+  render(){ 
+    if(this.state.data.length ==0){       
+      return  <p> Loading...</p>;
+    }
       
-        return (
-          <div>
-          {
-            this.state.data.map( (article) => <Article key={article.web_url} url={article.web_url} /> )
-          }
-          </div>
-        );
+    return (
+    <div className="articleDetails">
+      <div className="article">{
+          this.state.data.map( (article) => 
+          <Article key={article.web_url} 
+                    url={article.web_url} 
+                    clickhandler={this.handleItemClick} 
+                    item={article}/> )
+        }
+      </div>
+      <div className="details">
+        <UserDetails user={this.state.selectedArticle}/>
+      </div>
+    </div>
+    );
+  }
+}  
 
-    }
->>>>>>> 2d01e1478edee266ae1538040be109e771105c62
-      }  
-   
-   
+const UserDetails=(props)=> {
+  const user = props.user;
+  let headline = user.headline;
+  let byline = user.byline;
+  let description = user.snippet;
+  let link = user.web_url;
+  let author = "";
+  let title = "";
 
-   class Article extends React.Component {
+  for(let i in headline){
+    title = headline.main
+  }
 
-    constructor(props){
-      super(props)
-      this.state = {data: {}};
-      this.setData = this.setData.bind(this)
+  for(let i in byline){
+    author = byline.original
+  }
 
-    }
-
-    setData(responseData){
-    this.setState({data: responseData}); 
-    }   
-
- componentDidMount(){
-       $.ajax({
-            
-            url: 'http://api.linkpreview.net/?key=123456&q=https://www.google.com',
-          
-            success: this.setData
-        })
-
-    }
-    
-    render(){
-  
-        
 
       return (
-        <div className="flex-container">
-          <p>{this.state.data.description}</p>
-          <img className="aa" src={this.state.data.image} ></img>
-          <p>MORE AT:
-            <a href={this.state.data.url}>{this.state.data.url}</a>
-          </p>
+        <div>
+           <h4>{title}</h4>
+           <p>{description}</p>
+           <a href={link} target="_blank">{link}</a>
+           <p>{author}</p> 
         </div>
       );
-    }
-        
+  }
+
+
+class Article extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = {data: {}};
+    this.setData = this.setData.bind(this)
+  }
+
+  setData(responseData){
+    this.setState({data: responseData}); 
+  }   
+  componentDidMount(){
+    $.ajax({
+         /*url: 'http://api.linkpreview.net/?key=5a8c5fffdf1fd0d14e3ef9e05269b449abdfcf5c8c60a&q=' + this.props.url,*/
+      url: 'http://api.linkpreview.net/?key=123456&q=https://www.google.com',
+      success: this.setData
+    })
+  }
+    
+  render(){
+    const data = this.props.item;
+    const clickhandler = this.props.clickhandler;  
+    
+    return (
+      <div className="container">
+        <img src={this.state.data.image}  onClick={() => clickhandler(data)} ></img>
+        <h3>{this.state.data.title}</h3>
+        <p>{this.state.data.description}</p>
+      </div>   
+    );
+  }  
 }
-  function find(){
-ReactDOM.render(<App/>, document.getElementById('root'));
+const btn = document.getElementById("find")
 
-       }     
+btn.addEventListener('click', () =>{
+  const root = document.getElementById("root");
+  let y = document.getElementById("year").value;
+  let m = document.getElementById("month").value;
+  const cond1 = (m >= 9 && y == 1851);
+  const cond2 = (1852 <= y && y < 2018);
+  const cond3 = (m < 4 && y == 2018);
 
-       }     
-
+  if(y  != "" && m != ""){
+    month[0] == "0" ? month = month[1] : ""
+    
+    if(cond1 || cond2 || cond3) {
+      ReactDOM.unmountComponentAtNode(root);
+      ReactDOM.render(<App y={y} m={m} />, document.getElementById('root'))
+    }
+    else{
+      root.innerHTML = "Please choose month and year between September 1851. and March 2018!"
+    }
+  }
+  else{
+    root.innerHTML = "Please select month and year!"
+  }
+ })

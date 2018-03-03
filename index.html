@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
      <meta charset="UTF-8" />
+     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>NYT Explorer</title>
     <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"> </script>
     <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
@@ -10,38 +11,37 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
     <script type="text/babel" src="js/Nyte.js"></script>
-    <link rel="stylesheet" href="css/Nyte.css" type="text/css">
+    <link rel="stylesheet" href="css/Nyte.css" type="text/css"/>
+    <link rel="icon" href="img/news.png" type="image/gif"/>
   </head>
   <body>
 
-  <header>
-      <img src = " https://blogs.eui.eu/library/wp-content/uploads/sites/5/2016/10/NewYorkTimes.png" height="70" >
-       <hr/>
-    </header>
+    <div class="title">
+      <h1> The New York Times Explorer</h1>
+    </div>
+
+    <div class="main">
+      <div class="date">
+        <label><b>Search New York Times Archive by date:</b></label>
+        <p>Year:</p>
+        <input type="number" id="year" value="2018">
+        <p>Month:</p>
+        <input type="number" id="month" value="2" min="1" max="12">
+        <p>
+        <button onclick="find()" id="find"><strong>Find</strong></button>
+        </p>
+      </div>
+      <div id="root">
+      </div>
+    </div>
 
     
-      <section>
-     <label>Search New York Times Archive by date:</label>
-      <br/>
-
-    <p>Year:</p>
-    <input type="text" id="year" value="2018">
-    <p>Month:</p>
-    <input type="text" id="month" value="2">
-    <br/>
-    <p>
-     <button onclick="find()">Find</button>
-    </p>
-     <hr/>
-     <div id="root">
-    </div>
-    </section>
-
-
-    <footer>
-      <hr/>
-      <a href="https://developer.nytimes.com/" target="_blank"><img src="img/Times1.jpg" height="140vh" width="140"></a>
-      <p>Links preview by LinkPreview API</p>
+    <footer >
+      <div class="infooter">
+       <a href="https://developer.nytimes.com/" target="_blank"><img src="img/Times1.jpg"></a>
+       <p>Links preview by LinkPreview API</p>
+       <p>Copyright &copy; Sanja Vesic</p>
+     </div>
     </footer>
 
    
