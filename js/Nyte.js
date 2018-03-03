@@ -90,8 +90,8 @@ class Article extends React.Component {
   }   
   componentDidMount(){
     $.ajax({
-         /*url: 'http://api.linkpreview.net/?key=5a8c5fffdf1fd0d14e3ef9e05269b449abdfcf5c8c60a&q=' + this.props.url,*/
-      url: 'http://api.linkpreview.net/?key=123456&q=https://www.google.com',
+         url: 'https://api.linkpreview.net/?key=5a8c5fffdf1fd0d14e3ef9e05269b449abdfcf5c8c60a&q=' + this.props.url,
+     /* url: 'http://api.linkpreview.net/?key=123456&q=https://www.google.com',*/
       success: this.setData
     })
   }
